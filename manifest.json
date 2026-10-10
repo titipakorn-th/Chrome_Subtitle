@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Dual Subtitles",
+  "version": "0.2.0",
+  "description": "Dual subtitles on YouTube and Netflix. Netflix lines are translated with MiniMax.",
+  "permissions": ["storage", "unlimitedStorage"],
+  "host_permissions": ["https://api.minimax.cn/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["page-world.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["captions.js", "overlay.js", "content.js"],
+      "css": ["overlay.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.netflix.com/*"],
+      "js": ["netflix-world.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://www.netflix.com/*"],
+      "js": ["captions.js", "overlay.js", "netflix.js"],
+      "css": ["overlay.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
